@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KeyCRM × Claude — AI Аналітика</title>
+<title>KeyCRM x Claude — AI Аналітика</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap');
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -15,8 +15,8 @@
   .subtitle { font-size: 13px; color: #666; letter-spacing: 0.1em; text-transform: uppercase; }
   .section { background: #111; border: 1px solid #222; padding: 28px; margin-bottom: 32px; }
   .label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #b89a6a; margin-bottom: 16px; }
-  .row { display: flex; gap: 12px; align-items: center; }
-  input[type=password], input[type=text] { flex: 1; background: #0a0a0a; border: 1px solid #333; color: #e8e2d9; padding: 12px 16px; font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none; }
+  .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  input[type=password], input[type=text] { flex: 1; min-width: 200px; background: #0a0a0a; border: 1px solid #333; color: #e8e2d9; padding: 12px 16px; font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none; }
   input:focus { border-color: #b89a6a; }
   input::placeholder { color: #444; }
   .btn { background: #b89a6a; color: #0a0a0a; border: none; padding: 12px 24px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
@@ -61,13 +61,14 @@
   </div>
 
   <div class="section">
-    <div class="label">Підключення до KeyCRM</div>
-    <div class="row">
-      <input type="password" id="apiKey" placeholder="Вставте ваш API ключ з KeyCRM - Налаштування - Основні">
+    <div class="label">Підключення</div>
+    <div class="row" style="margin-bottom:12px;">
+      <input type="password" id="apiKey" placeholder="KeyCRM API ключ">
+      <input type="password" id="claudeKey" placeholder="Claude API ключ (з console.anthropic.com)">
       <button class="btn" onclick="loadProducts()">Підключити</button>
     </div>
     <div id="status" class="status"></div>
-    <div class="note">API ключ знаходиться в KeyCRM - Налаштування - Основні - рядок "API-ключ".</div>
+    <div class="note">KeyCRM ключ: Налаштування -> Основні -> API-ключ. Claude ключ: console.anthropic.com -> API Keys</div>
   </div>
 
   <div id="productsSection" style="display:none; margin-bottom:32px;">
@@ -87,10 +88,11 @@
       <div class="empty">Підключіть KeyCRM щоб почати аналіз</div>
     </div>
     <div class="quick-btns" id="quickBtns" style="display:none;">
-      <button class="quick-btn" onclick="ask('Які товари найприбутковіші?')">Які товари найприбутковіші?</button>
-      <button class="quick-btn" onclick="ask('Де зависли гроші у стоках?')">Де зависли гроші у стоках?</button>
+      <button class="quick-btn" onclick="ask('Які товари найприбутковіші?')">Які найприбутковіші?</button>
+      <button class="quick-btn" onclick="ask('Де зависли гроші у стоках?')">Де зависли гроші?</button>
       <button class="quick-btn" onclick="ask('Яка середня маржа по асортименту?')">Яка середня маржа?</button>
       <button class="quick-btn" onclick="ask('Що варто докупити наступного разу?')">Що докупити?</button>
+      <button class="quick-btn" onclick="ask('Які товари мають нульовий залишок?')">Нульові залишки?</button>
     </div>
     <div class="chat-input-row">
       <input type="text" id="chatInput" placeholder="Задайте питання по вашим товарам..." disabled onkeydown="if(event.key==='Enter')sendMsg()">
@@ -100,24 +102,27 @@
 </div>
 
 <script>
-let products = [];
-let messages = [];
-let thinking = false;
+var products = [];
+var messages = [];
+var thinking = false;
 
 async function loadProducts() {
-  const key = document.getElementById('apiKey').value.trim();
-  if (!key) { setStatus('Введіть API ключ', 'err'); return; }
+  var key = document.getElementById('apiKey').value.trim();
+  var claudeKey = document.getElementById('claudeKey').value.trim();
+  if (!key) { setStatus('Введіть KeyCRM API ключ', 'err'); return; }
+  if (!claudeKey) { setStatus('Введіть Claude API ключ', 'err'); return; }
+  window._claudeKey = claudeKey;
   products = [];
-  let page = 1;
+  var page = 1;
   try {
     while (true) {
       setStatus('Завантаження сторінки ' + page + '... (' + products.length + ' товарів)', '');
-      const res = await fetch('/api/proxy?endpoint=products%3Flimit%3D50%26page%3D' + page, {
+      var res = await fetch('/api/proxy?endpoint=products%3Flimit%3D50%26page%3D' + page, {
         headers: { 'x-api-key': key }
       });
-      const data = await res.json();
+      var data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Помилка ' + res.status);
-      const batch = data.data || data || [];
+      var batch = data.data || data || [];
       if (!Array.isArray(batch) || batch.length === 0) break;
       products = products.concat(batch);
       if (batch.length < 50) break;
@@ -136,7 +141,7 @@ async function loadProducts() {
 }
 
 function renderTable() {
-  const tbody = document.getElementById('productsTable');
+  var tbody = document.getElementById('productsTable');
   document.getElementById('productsSection').style.display = 'block';
   document.getElementById('countLabel').textContent = products.length + ' позицій';
   tbody.innerHTML = products.slice(0,15).map(function(p) {
@@ -150,7 +155,7 @@ function renderTable() {
 }
 
 function buildContext() {
-  return products.slice(0,50).map(function(p) {
+  return products.slice(0,80).map(function(p) {
     var price = p.price || p.sell_price || 0;
     var cost = p.cost_price || p.purchase_price || 0;
     var qty = p.quantity != null ? p.quantity : '?';
@@ -171,18 +176,21 @@ async function sendMsg() {
   thinking = true;
   showThinking();
   try {
-    var res = await fetch('https://api.anthropic.com/v1/messages', {
+    var res = await fetch('/api/proxy?service=claude', {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'x-claude-key': window._claudeKey
+      },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
-        system: 'Ти фінансовий AI-аналітик fashion бізнесу. Дані товарів з KeyCRM (всього ' + products.length + ' товарів):\n' + buildContext() + '\n\nВідповідай чітко, по суті, з конкретними цифрами. Мова: українська або російська.',
+        system: 'Ти фінансовий AI-аналітик fashion бізнесу. Дані товарів з KeyCRM (всього ' + products.length + ' товарів, показую перші 80):\n' + buildContext() + '\n\nВідповідай чітко, по суті, з конкретними цифрами. Мова: українська або російська.',
         messages: messages.map(function(m) { return {role: m.role==='ai'?'assistant':'user', content: m.content}; })
       })
     });
     var data = await res.json();
-    var reply = data.content && data.content[0] ? data.content[0].text : 'Помилка отримання відповіді.';
+    var reply = data.content && data.content[0] ? data.content[0].text : 'Помилка: ' + JSON.stringify(data);
     messages.push({role:'ai', content: reply});
     removeThinking();
     addMsg('ai', reply);
