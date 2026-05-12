@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
@@ -57,18 +56,18 @@
 <body>
 <div class="app">
   <div class="header">
-    <div class="logo">KeyCRM <span>×</span> Claude</div>
+    <div class="logo">KeyCRM <span>x</span> Claude</div>
     <div class="subtitle">AI-аналітика товарів і фінансів</div>
   </div>
 
   <div class="section">
     <div class="label">Підключення до KeyCRM</div>
     <div class="row">
-      <input type="password" id="apiKey" placeholder="Вставте ваш API ключ з KeyCRM → Налаштування → Основні">
+      <input type="password" id="apiKey" placeholder="Вставте ваш API ключ з KeyCRM - Налаштування - Основні">
       <button class="btn" onclick="loadProducts()">Підключити</button>
     </div>
     <div id="status" class="status"></div>
-    <div class="note">API ключ знаходиться в KeyCRM → Налаштування → Основні → рядок "API-ключ".</div>
+    <div class="note">API ключ знаходиться в KeyCRM - Налаштування - Основні - рядок "API-ключ".</div>
   </div>
 
   <div id="productsSection" style="display:none; margin-bottom:32px;">
@@ -95,7 +94,7 @@
     </div>
     <div class="chat-input-row">
       <input type="text" id="chatInput" placeholder="Задайте питання по вашим товарам..." disabled onkeydown="if(event.key==='Enter')sendMsg()">
-      <button class="btn" id="sendBtn" onclick="sendMsg()" disabled>→</button>
+      <button class="btn" id="sendBtn" onclick="sendMsg()" disabled>-></button>
     </div>
   </div>
 </div>
@@ -108,15 +107,24 @@ let thinking = false;
 async function loadProducts() {
   const key = document.getElementById('apiKey').value.trim();
   if (!key) { setStatus('Введіть API ключ', 'err'); return; }
-  setStatus('Підключення...', '');
+  products = [];
+  let page = 1;
   try {
-    const res = await fetch('/api/proxy?endpoint=products%3Flimit%3D1000', {
-      headers: { 'x-api-key': key }
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Помилка ' + res.status);
-    products = data.data || data || [];
-    setStatus('✓ Завантажено ' + products.length + ' товарів', 'ok');
+    while (true) {
+      setStatus('Завантаження сторінки ' + page + '... (' + products.length + ' товарів)', '');
+      const res = await fetch('/api/proxy?endpoint=products%3Flimit%3D50%26page%3D' + page, {
+        headers: { 'x-api-key': key }
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Помилка ' + res.status);
+      const batch = data.data || data || [];
+      if (!Array.isArray(batch) || batch.length === 0) break;
+      products = products.concat(batch);
+      if (batch.length < 50) break;
+      page++;
+      if (page > 20) break;
+    }
+    setStatus('Завантажено ' + products.length + ' товарів', 'ok');
     renderTable();
     document.getElementById('chatInput').disabled = false;
     document.getElementById('sendBtn').disabled = false;
@@ -131,31 +139,31 @@ function renderTable() {
   const tbody = document.getElementById('productsTable');
   document.getElementById('productsSection').style.display = 'block';
   document.getElementById('countLabel').textContent = products.length + ' позицій';
-  tbody.innerHTML = products.slice(0,15).map(p => {
-    const price = p.price || p.sell_price || 0;
-    const cost = p.cost_price || p.purchase_price || 0;
-    const qty = p.quantity ?? p.stock ?? '—';
-    const margin = cost && price ? (((price-cost)/price)*100).toFixed(1) : '—';
-    const mcolor = margin > 30 ? '#6ab87a' : margin > 15 ? '#b89a6a' : '#b86a6a';
-    return `<tr><td>${p.name||p.title||'—'}</td><td style="color:#b89a6a">${price?price+' грн':'—'}</td><td style="color:#888">${cost?cost+' грн':'—'}</td><td style="color:${mcolor}">${margin!=='—'?margin+'%':'—'}</td><td style="color:#888">${qty}</td></tr>`;
+  tbody.innerHTML = products.slice(0,15).map(function(p) {
+    var price = p.price || p.sell_price || 0;
+    var cost = p.cost_price || p.purchase_price || 0;
+    var qty = p.quantity != null ? p.quantity : (p.stock != null ? p.stock : '—');
+    var margin = cost && price ? (((price-cost)/price)*100).toFixed(1) : '—';
+    var mcolor = margin > 30 ? '#6ab87a' : margin > 15 ? '#b89a6a' : '#b86a6a';
+    return '<tr><td>' + (p.name||p.title||'—') + '</td><td style="color:#b89a6a">' + (price?price+' грн':'—') + '</td><td style="color:#888">' + (cost?cost+' грн':'—') + '</td><td style="color:' + mcolor + '">' + (margin!=='—'?margin+'%':'—') + '</td><td style="color:#888">' + qty + '</td></tr>';
   }).join('');
 }
 
 function buildContext() {
-  return products.slice(0,30).map(p => {
-    const price = p.price || p.sell_price || 0;
-    const cost = p.cost_price || p.purchase_price || 0;
-    const qty = p.quantity ?? p.stock ?? '?';
-    const margin = cost && price ? (((price-cost)/price)*100).toFixed(1) : '?';
-    return `• ${p.name||p.title||'—'} | Ціна: ${price} грн | Собівартість: ${cost} грн | Маржа: ${margin}% | Залишок: ${qty} шт`;
+  return products.slice(0,50).map(function(p) {
+    var price = p.price || p.sell_price || 0;
+    var cost = p.cost_price || p.purchase_price || 0;
+    var qty = p.quantity != null ? p.quantity : '?';
+    var margin = cost && price ? (((price-cost)/price)*100).toFixed(1) : '?';
+    return '- ' + (p.name||p.title||'—') + ' | Ціна: ' + price + ' грн | Собівартість: ' + cost + ' грн | Маржа: ' + margin + '% | Залишок: ' + qty + ' шт';
   }).join('\n');
 }
 
 function ask(q) { document.getElementById('chatInput').value = q; sendMsg(); }
 
 async function sendMsg() {
-  const input = document.getElementById('chatInput');
-  const msg = input.value.trim();
+  var input = document.getElementById('chatInput');
+  var msg = input.value.trim();
   if (!msg || thinking) return;
   input.value = '';
   addMsg('user', msg);
@@ -163,18 +171,18 @@ async function sendMsg() {
   thinking = true;
   showThinking();
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    var res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
-        system: `Ти фінансовий AI-аналітик fashion бізнесу. Дані товарів з KeyCRM:\n${buildContext()}\n\nВідповідай чітко, по суті, з конкретними цифрами. Мова: українська або російська.`,
-        messages: messages.map(m => ({role: m.role==='ai'?'assistant':'user', content: m.content}))
+        system: 'Ти фінансовий AI-аналітик fashion бізнесу. Дані товарів з KeyCRM (всього ' + products.length + ' товарів):\n' + buildContext() + '\n\nВідповідай чітко, по суті, з конкретними цифрами. Мова: українська або російська.',
+        messages: messages.map(function(m) { return {role: m.role==='ai'?'assistant':'user', content: m.content}; })
       })
     });
-    const data = await res.json();
-    const reply = data.content?.[0]?.text || 'Помилка отримання відповіді.';
+    var data = await res.json();
+    var reply = data.content && data.content[0] ? data.content[0].text : 'Помилка отримання відповіді.';
     messages.push({role:'ai', content: reply});
     removeThinking();
     addMsg('ai', reply);
@@ -186,18 +194,18 @@ async function sendMsg() {
 }
 
 function addMsg(role, text) {
-  const box = document.getElementById('messages');
+  var box = document.getElementById('messages');
   if (box.querySelector('.empty')) box.innerHTML = '';
-  const div = document.createElement('div');
+  var div = document.createElement('div');
   div.className = 'msg';
-  div.innerHTML = `<div class="avatar ${role}">${role==='user'?'Ви':'AI'}</div><div class="content ${role}">${text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div>`;
+  div.innerHTML = '<div class="avatar ' + role + '">' + (role==='user'?'Ви':'AI') + '</div><div class="content ' + role + '">' + text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>') + '</div>';
   box.appendChild(div);
   box.scrollTop = box.scrollHeight;
 }
 
 function showThinking() {
-  const box = document.getElementById('messages');
-  const div = document.createElement('div');
+  var box = document.getElementById('messages');
+  var div = document.createElement('div');
   div.className = 'msg'; div.id = 'thinking';
   div.innerHTML = '<div class="avatar ai">AI</div><div class="content"><div class="thinking"><span></span><span></span><span></span></div></div>';
   box.appendChild(div);
@@ -205,16 +213,15 @@ function showThinking() {
 }
 
 function removeThinking() {
-  const t = document.getElementById('thinking');
+  var t = document.getElementById('thinking');
   if (t) t.remove();
 }
 
 function setStatus(msg, type) {
-  const el = document.getElementById('status');
+  var el = document.getElementById('status');
   el.textContent = msg;
   el.className = 'status ' + type;
 }
 </script>
-
 </body>
 </html>
