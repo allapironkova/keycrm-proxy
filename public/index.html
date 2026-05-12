@@ -8,156 +8,278 @@
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap');
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #0a0a0a; color: #e8e2d9; font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; }
-  .app { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
-  .header { margin-bottom: 48px; border-bottom: 1px solid #222; padding-bottom: 32px; }
-  .logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 400; color: #e8e2d9; margin-bottom: 8px; }
+  .app { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+  .header { margin-bottom: 40px; border-bottom: 1px solid #222; padding-bottom: 28px; }
+  .logo { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 400; color: #e8e2d9; margin-bottom: 6px; }
   .logo span { color: #b89a6a; }
-  .subtitle { font-size: 13px; color: #666; letter-spacing: 0.1em; text-transform: uppercase; }
-  .section { background: #111; border: 1px solid #222; padding: 28px; margin-bottom: 32px; }
-  .label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #b89a6a; margin-bottom: 16px; }
-  .row { display: flex; gap: 12px; align-items: center; }
-  input[type=password], input[type=text] { flex: 1; background: #0a0a0a; border: 1px solid #333; color: #e8e2d9; padding: 12px 16px; font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none; }
+  .subtitle { font-size: 12px; color: #666; letter-spacing: 0.1em; text-transform: uppercase; }
+  .section { background: #111; border: 1px solid #222; padding: 24px; margin-bottom: 24px; }
+  .label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #b89a6a; margin-bottom: 14px; }
+  .row { display: flex; gap: 10px; align-items: center; }
+  input[type=password], input[type=text] { flex: 1; background: #0a0a0a; border: 1px solid #333; color: #e8e2d9; padding: 11px 14px; font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none; }
   input:focus { border-color: #b89a6a; }
   input::placeholder { color: #444; }
-  .btn { background: #b89a6a; color: #0a0a0a; border: none; padding: 12px 24px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
+  .btn { background: #b89a6a; color: #0a0a0a; border: none; padding: 11px 20px; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
   .btn:hover { background: #caa87a; }
   .btn:disabled { background: #333; color: #666; cursor: not-allowed; }
-  .status { margin-top: 12px; font-size: 12px; color: #666; }
+  .btn-sm { padding: 8px 16px; font-size: 10px; }
+  .status { margin-top: 10px; font-size: 12px; color: #666; }
   .status.ok { color: #6ab87a; }
   .status.err { color: #b86a6a; }
-  .note { margin-top: 8px; font-size: 11px; color: #444; line-height: 1.6; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { text-align: left; padding: 10px 14px; background: #111; color: #666; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 400; border-bottom: 1px solid #222; }
-  td { padding: 11px 14px; border-bottom: 1px solid #1a1a1a; color: #c8c2b9; }
+  .note { margin-top: 6px; font-size: 11px; color: #444; line-height: 1.5; }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .stat-card { background: #111; border: 1px solid #222; padding: 16px; }
+  .stat-label { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: #666; margin-bottom: 8px; }
+  .stat-value { font-family: 'Playfair Display', serif; font-size: 22px; color: #b89a6a; }
+  .stat-sub { font-size: 11px; color: #555; margin-top: 4px; }
+  .tabs { display: flex; gap: 0; margin-bottom: 0; border-bottom: 1px solid #222; }
+  .tab { padding: 10px 20px; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #666; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tab.active { color: #b89a6a; border-bottom-color: #b89a6a; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { text-align: left; padding: 9px 12px; background: #0f0f0f; color: #555; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 400; border-bottom: 1px solid #1a1a1a; }
+  td { padding: 9px 12px; border-bottom: 1px solid #161616; color: #b8b2a9; }
   tr:hover td { background: #111; }
-  .chat-header { padding: 20px 24px; border-bottom: 1px solid #222; display: flex; align-items: center; gap: 10px; }
-  .dot { width: 8px; height: 8px; background: #b89a6a; border-radius: 50%; }
+  .chat-header { padding: 18px 22px; border-bottom: 1px solid #222; display: flex; align-items: center; gap: 10px; }
+  .dot { width: 7px; height: 7px; background: #b89a6a; border-radius: 50%; }
   .chat-title { font-size: 13px; font-weight: 500; }
-  .messages { padding: 24px; min-height: 300px; max-height: 500px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
-  .msg { display: flex; gap: 12px; align-items: flex-start; }
-  .avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; flex-shrink: 0; }
+  .messages { padding: 20px; min-height: 280px; max-height: 480px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+  .msg { display: flex; gap: 10px; align-items: flex-start; }
+  .avatar { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 500; flex-shrink: 0; }
   .avatar.user { background: #333; color: #b89a6a; }
   .avatar.ai { background: #b89a6a22; color: #b89a6a; border: 1px solid #b89a6a44; }
-  .content { flex: 1; font-size: 14px; line-height: 1.7; color: #c8c2b9; }
+  .content { flex: 1; font-size: 13px; line-height: 1.7; color: #c8c2b9; }
   .content.user { color: #e8e2d9; }
-  .thinking { display: flex; gap: 4px; align-items: center; }
-  .thinking span { width: 6px; height: 6px; background: #b89a6a; border-radius: 50%; animation: blink 1.2s infinite; }
+  .thinking { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
+  .thinking span { width: 5px; height: 5px; background: #b89a6a; border-radius: 50%; animation: blink 1.2s infinite; }
   .thinking span:nth-child(2) { animation-delay: 0.2s; }
   .thinking span:nth-child(3) { animation-delay: 0.4s; }
   @keyframes blink { 0%,80%,100%{opacity:.2} 40%{opacity:1} }
-  .chat-input-row { padding: 16px 24px; border-top: 1px solid #222; display: flex; gap: 10px; }
-  .quick-btns { padding: 0 24px 20px; display: flex; flex-wrap: wrap; gap: 8px; }
-  .quick-btn { background: transparent; border: 1px solid #2a2a2a; color: #888; padding: 7px 14px; font-family: 'DM Sans', sans-serif; font-size: 11px; cursor: pointer; }
+  .chat-input-row { padding: 14px 20px; border-top: 1px solid #222; display: flex; gap: 10px; }
+  .quick-btns { padding: 0 20px 16px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .quick-btn { background: transparent; border: 1px solid #2a2a2a; color: #777; padding: 6px 12px; font-family: 'DM Sans', sans-serif; font-size: 10px; cursor: pointer; letter-spacing: 0.05em; }
   .quick-btn:hover { border-color: #b89a6a; color: #b89a6a; }
-  .empty { text-align: center; padding: 60px 24px; color: #444; font-size: 13px; }
-  .tbl-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .empty { text-align: center; padding: 50px 20px; color: #444; font-size: 13px; }
+  .progress { height: 2px; background: #222; margin-top: 8px; }
+  .progress-bar { height: 100%; background: #b89a6a; transition: width 0.3s; }
+  @media (max-width: 600px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
 </style>
 </head>
 <body>
 <div class="app">
   <div class="header">
     <div class="logo">KeyCRM <span>x</span> Claude</div>
-    <div class="subtitle">AI-аналітика товарів і фінансів</div>
+    <div class="subtitle">AI-аналітика — товари, замовлення, фінанси</div>
   </div>
 
   <div class="section">
     <div class="label">Підключення до KeyCRM</div>
     <div class="row">
-      <input type="password" id="apiKey" placeholder="Вставте ваш API ключ з KeyCRM">
-      <button class="btn" onclick="loadProducts()">Підключити</button>
+      <input type="password" id="apiKey" placeholder="API ключ з KeyCRM -> Налаштування -> Основні">
+      <button class="btn" id="connectBtn" onclick="loadAll()">Завантажити</button>
     </div>
     <div id="status" class="status"></div>
-    <div class="note">API ключ: KeyCRM -> Налаштування -> Основні -> рядок "API-ключ"</div>
+    <div class="progress"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+    <div class="note">Завантажує: товари, варіанти з собівартістю, залишки, замовлення</div>
   </div>
 
-  <div id="productsSection" style="display:none; margin-bottom:32px;">
-    <div class="tbl-header">
-      <div class="label" style="margin:0">Завантажені товари</div>
-      <div id="countLabel" style="font-size:12px;color:#666;"></div>
+  <div id="statsSection" style="display:none;">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Товарів</div>
+        <div class="stat-value" id="statProducts">—</div>
+        <div class="stat-sub" id="statOffers">— варіантів</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Замовлень</div>
+        <div class="stat-value" id="statOrders">—</div>
+        <div class="stat-sub" id="statOrdersSub">за весь час</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Виручка</div>
+        <div class="stat-value" id="statRevenue">—</div>
+        <div class="stat-sub">грн</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Залишків</div>
+        <div class="stat-value" id="statStock">—</div>
+        <div class="stat-sub">одиниць на складі</div>
+      </div>
     </div>
-    <table>
-      <thead><tr><th>Назва</th><th>Ціна</th><th>Собівартість</th><th>Маржа</th><th>Залишок</th></tr></thead>
-      <tbody id="productsTable"></tbody>
-    </table>
+  </div>
+
+  <div id="dataSection" style="display:none;" class="section" style="padding:0;">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('products')">Товари</div>
+      <div class="tab" onclick="switchTab('offers')">Варіанти/Собівартість</div>
+      <div class="tab" onclick="switchTab('orders')">Замовлення</div>
+      <div class="tab" onclick="switchTab('stocks')">Залишки</div>
+    </div>
+    <div style="padding:16px;">
+      <div id="tab-products" class="tab-content active">
+        <table><thead><tr><th>Назва</th><th>Ціна</th><th>Категорія</th><th>Артикул</th></tr></thead>
+        <tbody id="tblProducts"></tbody></table>
+      </div>
+      <div id="tab-offers" class="tab-content">
+        <table><thead><tr><th>Назва</th><th>SKU</th><th>Ціна продажу</th><th>Собівартість</th><th>Маржа</th></tr></thead>
+        <tbody id="tblOffers"></tbody></table>
+      </div>
+      <div id="tab-orders" class="tab-content">
+        <table><thead><tr><th>ID</th><th>Сума</th><th>Статус оплати</th><th>Дата</th><th>Витрати</th></tr></thead>
+        <tbody id="tblOrders"></tbody></table>
+      </div>
+      <div id="tab-stocks" class="tab-content">
+        <table><thead><tr><th>SKU</th><th>Назва</th><th>Кількість</th><th>Склад</th></tr></thead>
+        <tbody id="tblStocks"></tbody></table>
+      </div>
+    </div>
   </div>
 
   <div class="section" style="padding:0;">
     <div class="chat-header"><div class="dot"></div><div class="chat-title">AI-аналітик</div></div>
     <div class="messages" id="messages">
-      <div class="empty">Підключіть KeyCRM щоб почати аналіз</div>
+      <div class="empty">Завантажте дані щоб почати аналіз</div>
     </div>
     <div class="quick-btns" id="quickBtns" style="display:none;">
-      <button class="quick-btn" onclick="ask('Які товари найприбутковіші?')">Які найприбутковіші?</button>
-      <button class="quick-btn" onclick="ask('Де зависли гроші у стоках?')">Де зависли гроші?</button>
-      <button class="quick-btn" onclick="ask('Яка середня маржа по асортименту?')">Яка середня маржа?</button>
-      <button class="quick-btn" onclick="ask('Що варто докупити наступного разу?')">Що докупити?</button>
-      <button class="quick-btn" onclick="ask('Які товари мають нульовий залишок?')">Нульові залишки?</button>
+      <button class="quick-btn" onclick="ask('Які товари найприбутковіші? Покажи топ-10 з маржею')">Топ прибуткових</button>
+      <button class="quick-btn" onclick="ask('Де зависли гроші у стоках? Які товари мають великий залишок і низькі продажі?')">Де зависли гроші?</button>
+      <button class="quick-btn" onclick="ask('Яка загальна виручка і середня маржа по всьому асортименту?')">Загальна аналітика</button>
+      <button class="quick-btn" onclick="ask('Які товари мають нульовий або критично низький залишок?')">Критичні залишки</button>
+      <button class="quick-btn" onclick="ask('Проаналізуй замовлення: середній чек, динаміка, топ місяці')">Аналіз замовлень</button>
+      <button class="quick-btn" onclick="ask('Що варто закупити наступного разу виходячи з продажів і залишків?')">План закупки</button>
     </div>
     <div class="chat-input-row">
-      <input type="text" id="chatInput" placeholder="Задайте питання по вашим товарам..." disabled onkeydown="if(event.key==='Enter')sendMsg()">
+      <input type="text" id="chatInput" placeholder="Задайте будь-яке питання по вашому бізнесу..." disabled onkeydown="if(event.key==='Enter')sendMsg()">
       <button class="btn" id="sendBtn" onclick="sendMsg()" disabled>-></button>
     </div>
   </div>
 </div>
 
 <script>
-var products = [];
-var messages = [];
-var thinking = false;
+var products = [], offers = [], orders = [], stocks = [];
+var messages = [], thinking = false;
 
-async function loadProducts() {
+async function fetchAll(endpoint, key) {
+  var all = [], page = 1;
+  while (true) {
+    var res = await fetch('/api/proxy?endpoint=' + encodeURIComponent(endpoint + '?limit=50&page=' + page), {
+      headers: { 'x-api-key': key }
+    });
+    var data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Помилка ' + res.status);
+    var batch = data.data || data || [];
+    if (!Array.isArray(batch) || batch.length === 0) break;
+    all = all.concat(batch);
+    if (batch.length < 50) break;
+    page++;
+    if (page > 20) break;
+  }
+  return all;
+}
+
+async function loadAll() {
   var key = document.getElementById('apiKey').value.trim();
   if (!key) { setStatus('Введіть API ключ', 'err'); return; }
-  products = [];
-  var page = 1;
+  document.getElementById('connectBtn').disabled = true;
+
   try {
-    while (true) {
-      setStatus('Завантаження сторінки ' + page + '... (' + products.length + ' товарів)', '');
-      var res = await fetch('/api/proxy?endpoint=products%3Flimit%3D50%26page%3D' + page, {
-        headers: { 'x-api-key': key }
-      });
-      var data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Помилка ' + res.status);
-      var batch = data.data || data || [];
-      if (!Array.isArray(batch) || batch.length === 0) break;
-      products = products.concat(batch);
-      if (batch.length < 50) break;
-      page++;
-      if (page > 20) break;
-    }
-    setStatus('Завантажено ' + products.length + ' товарів', 'ok');
-    renderTable();
+    setStatus('Завантаження товарів...', ''); setProgress(10);
+    products = await fetchAll('products', key);
+    setStatus('Завантажено ' + products.length + ' товарів. Варіанти...', ''); setProgress(30);
+
+    offers = await fetchAll('offers', key);
+    setStatus('Завантажено ' + offers.length + ' варіантів. Залишки...', ''); setProgress(50);
+
+    try { stocks = await fetchAll('offers/stocks', key); } catch(e) { stocks = []; }
+    setStatus('Завантажено залишки. Замовлення...', ''); setProgress(70);
+
+    orders = await fetchAll('order', key);
+    setProgress(100);
+    setStatus('Готово! Товарів: ' + products.length + ' | Варіантів: ' + offers.length + ' | Замовлень: ' + orders.length + ' | Залишків: ' + stocks.length, 'ok');
+
+    renderStats();
+    renderTables();
+    document.getElementById('statsSection').style.display = 'block';
+    document.getElementById('dataSection').style.display = 'block';
     document.getElementById('chatInput').disabled = false;
     document.getElementById('sendBtn').disabled = false;
     document.getElementById('quickBtns').style.display = 'flex';
-    addMsg('ai', 'Підключено до KeyCRM. Завантажено **' + products.length + ' товарів**. Що вас цікавить?');
+    addMsg('ai', 'Завантажено **' + products.length + ' товарів**, **' + offers.length + ' варіантів**, **' + orders.length + ' замовлень**. Тепер можу аналізувати собівартість, маржу, продажі і залишки. Що вас цікавить?');
   } catch(e) {
     setStatus('Помилка: ' + e.message, 'err');
   }
+  document.getElementById('connectBtn').disabled = false;
 }
 
-function renderTable() {
-  var tbody = document.getElementById('productsTable');
-  document.getElementById('productsSection').style.display = 'block';
-  document.getElementById('countLabel').textContent = products.length + ' позицій';
-  tbody.innerHTML = products.slice(0,15).map(function(p) {
-    var price = p.price || p.sell_price || 0;
-    var cost = p.cost_price || p.purchase_price || 0;
-    var qty = p.quantity != null ? p.quantity : (p.stock != null ? p.stock : '—');
+function renderStats() {
+  document.getElementById('statProducts').textContent = products.length;
+  document.getElementById('statOffers').textContent = offers.length + ' варіантів';
+  document.getElementById('statOrders').textContent = orders.length;
+  var revenue = orders.reduce(function(s, o) { return s + parseFloat(o.grand_total || 0); }, 0);
+  document.getElementById('statRevenue').textContent = Math.round(revenue).toLocaleString();
+  var totalStock = stocks.reduce(function(s, st) { return s + (parseInt(st.quantity) || 0); }, 0);
+  document.getElementById('statStock').textContent = totalStock.toLocaleString();
+}
+
+function renderTables() {
+  document.getElementById('tblProducts').innerHTML = products.slice(0,50).map(function(p) {
+    return '<tr><td>' + (p.name||'—') + '</td><td style="color:#b89a6a">' + (p.price?p.price+' грн':'—') + '</td><td style="color:#666">' + (p.category&&p.category.name?p.category.name:'—') + '</td><td style="color:#555">' + (p.sku||'—') + '</td></tr>';
+  }).join('');
+
+  document.getElementById('tblOffers').innerHTML = offers.slice(0,50).map(function(o) {
+    var price = parseFloat(o.price || o.sell_price || 0);
+    var cost = parseFloat(o.cost_price || o.purchase_price || 0);
     var margin = cost && price ? (((price-cost)/price)*100).toFixed(1) : '—';
-    var mcolor = margin > 30 ? '#6ab87a' : margin > 15 ? '#b89a6a' : '#b86a6a';
-    return '<tr><td>' + (p.name||p.title||'—') + '</td><td style="color:#b89a6a">' + (price?price+' грн':'—') + '</td><td style="color:#888">' + (cost?cost+' грн':'—') + '</td><td style="color:' + mcolor + '">' + (margin!=='—'?margin+'%':'—') + '</td><td style="color:#888">' + qty + '</td></tr>';
+    var mc = margin > 30 ? '#6ab87a' : margin > 15 ? '#b89a6a' : '#b86a6a';
+    return '<tr><td>' + (o.product&&o.product.name?o.product.name:(o.name||'—')) + '</td><td style="color:#555">' + (o.sku||'—') + '</td><td style="color:#b89a6a">' + (price?price+' грн':'—') + '</td><td style="color:#888">' + (cost?cost+' грн':'—') + '</td><td style="color:' + mc + '">' + (margin!=='—'?margin+'%':'—') + '</td></tr>';
+  }).join('');
+
+  document.getElementById('tblOrders').innerHTML = orders.slice(0,50).map(function(o) {
+    var date = o.created_at ? o.created_at.substring(0,10) : '—';
+    return '<tr><td style="color:#555">#' + (o.id||'—') + '</td><td style="color:#b89a6a">' + (o.grand_total?o.grand_total+' грн':'—') + '</td><td style="color:#888">' + (o.payment_status||'—') + '</td><td style="color:#666">' + date + '</td><td style="color:#b86a6a">' + (o.expenses_sum?o.expenses_sum+' грн':'—') + '</td></tr>';
+  }).join('');
+
+  document.getElementById('tblStocks').innerHTML = stocks.slice(0,50).map(function(s) {
+    return '<tr><td style="color:#555">' + (s.sku||'—') + '</td><td>' + (s.product_name||s.name||'—') + '</td><td style="color:#b89a6a">' + (s.quantity||0) + '</td><td style="color:#666">' + (s.warehouse&&s.warehouse.name?s.warehouse.name:'—') + '</td></tr>';
   }).join('');
 }
 
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(function(t,i) {
+    var names = ['products','offers','orders','stocks'];
+    t.classList.toggle('active', names[i]===name);
+  });
+  document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
 function buildContext() {
-  return products.slice(0,80).map(function(p) {
-    var price = p.price || p.sell_price || 0;
-    var cost = p.cost_price || p.purchase_price || 0;
-    var qty = p.quantity != null ? p.quantity : '?';
-    var margin = cost && price ? (((price-cost)/price)*100).toFixed(1) : '?';
-    return '- ' + (p.name||p.title||'—') + ' | Ціна: ' + price + ' грн | Собівартість: ' + cost + ' грн | Маржа: ' + margin + '% | Залишок: ' + qty + ' шт';
+  var ctx = '';
+  ctx += 'ТОВАРИ (' + products.length + ' шт, перші 30):\n';
+  ctx += products.slice(0,30).map(function(p) {
+    return '- ' + (p.name||'—') + ' | Ціна: ' + (p.price||0) + ' грн | SKU: ' + (p.sku||'—');
   }).join('\n');
+
+  ctx += '\n\nВАРІАНТИ З СОБІВАРТІСТЮ (' + offers.length + ' шт, перші 50):\n';
+  ctx += offers.slice(0,50).map(function(o) {
+    var price = parseFloat(o.price || o.sell_price || 0);
+    var cost = parseFloat(o.cost_price || o.purchase_price || 0);
+    var margin = cost && price ? (((price-cost)/price)*100).toFixed(1) : '?';
+    return '- ' + (o.product&&o.product.name?o.product.name:(o.name||'—')) + ' | SKU: ' + (o.sku||'—') + ' | Ціна: ' + price + ' | Собівартість: ' + cost + ' | Маржа: ' + margin + '%';
+  }).join('\n');
+
+  ctx += '\n\nЗАМОВЛЕННЯ (' + orders.length + ' шт, перші 50):\n';
+  ctx += orders.slice(0,50).map(function(o) {
+    return '- #' + o.id + ' | Сума: ' + (o.grand_total||0) + ' грн | Оплата: ' + (o.payment_status||'—') + ' | Дата: ' + (o.created_at?o.created_at.substring(0,10):'—') + ' | Витрати: ' + (o.expenses_sum||0);
+  }).join('\n');
+
+  ctx += '\n\nЗАЛИШКИ (' + stocks.length + ' шт, перші 50):\n';
+  ctx += stocks.slice(0,50).map(function(s) {
+    return '- SKU: ' + (s.sku||'—') + ' | ' + (s.product_name||s.name||'—') + ' | Кількість: ' + (s.quantity||0);
+  }).join('\n');
+
+  return ctx;
 }
 
 function ask(q) { document.getElementById('chatInput').value = q; sendMsg(); }
@@ -176,9 +298,9 @@ async function sendMsg() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: 'Ти фінансовий AI-аналітик fashion бізнесу. Дані товарів з KeyCRM (всього ' + products.length + ' товарів, показую перші 80):\n' + buildContext() + '\n\nВідповідай чітко, по суті, з конкретними цифрами. Мова: українська або російська.',
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1500,
+        system: 'Ти фінансовий AI-аналітик fashion бізнесу. Маєш доступ до повних даних з KeyCRM:\n\n' + buildContext() + '\n\nВідповідай чітко, з конкретними цифрами і рекомендаціями. Мова: українська або російська залежно від питання.',
         messages: messages.map(function(m) { return {role: m.role==='ai'?'assistant':'user', content: m.content}; })
       })
     });
@@ -199,7 +321,7 @@ function addMsg(role, text) {
   if (box.querySelector('.empty')) box.innerHTML = '';
   var div = document.createElement('div');
   div.className = 'msg';
-  div.innerHTML = '<div class="avatar ' + role + '">' + (role==='user'?'Ви':'AI') + '</div><div class="content ' + role + '">' + text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>') + '</div>';
+  div.innerHTML = '<div class="avatar ' + role + '">' + (role==='user'?'Ви':'AI') + '</div><div class="content ' + role + '">' + text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>') + '</div>';
   box.appendChild(div);
   box.scrollTop = box.scrollHeight;
 }
@@ -213,15 +335,16 @@ function showThinking() {
   box.scrollTop = box.scrollHeight;
 }
 
-function removeThinking() {
-  var t = document.getElementById('thinking');
-  if (t) t.remove();
-}
+function removeThinking() { var t = document.getElementById('thinking'); if (t) t.remove(); }
 
 function setStatus(msg, type) {
   var el = document.getElementById('status');
   el.textContent = msg;
-  el.className = 'status ' + type;
+  el.className = 'status ' + (type||'');
+}
+
+function setProgress(pct) {
+  document.getElementById('progressBar').style.width = pct + '%';
 }
 </script>
 </body>
