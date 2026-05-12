@@ -229,7 +229,7 @@ function renderTables() {
 
   document.getElementById('tblOffers').innerHTML = offers.slice(0,50).map(function(o) {
     var price = parseFloat(o.price || o.sell_price || 0);
-    var cost = parseFloat(o.cost_price || o.purchase_price || 0);
+    var cost = parseFloat(o.purchased_price || o.cost_price || o.purchase_price || 0);
     var margin = cost && price ? (((price-cost)/price)*100).toFixed(1) : '—';
     var mc = margin > 30 ? '#6ab87a' : margin > 15 ? '#b89a6a' : '#b86a6a';
     return '<tr><td>' + (o.product&&o.product.name?o.product.name:(o.name||'—')) + '</td><td style="color:#555">' + (o.sku||'—') + '</td><td style="color:#b89a6a">' + (price?price+' грн':'—') + '</td><td style="color:#888">' + (cost?cost+' грн':'—') + '</td><td style="color:' + mc + '">' + (margin!=='—'?margin+'%':'—') + '</td></tr>';
@@ -264,7 +264,7 @@ function buildContext() {
   ctx += '\n\nВАРІАНТИ З СОБІВАРТІСТЮ (' + offers.length + ' шт, перші 50):\n';
   ctx += offers.slice(0,50).map(function(o) {
     var price = parseFloat(o.price || o.sell_price || 0);
-    var cost = parseFloat(o.cost_price || o.purchase_price || 0);
+    var cost = parseFloat(o.purchased_price || o.cost_price || o.purchase_price || 0);
     var margin = cost && price ? (((price-cost)/price)*100).toFixed(1) : '?';
     return '- ' + (o.product&&o.product.name?o.product.name:(o.name||'—')) + ' | SKU: ' + (o.sku||'—') + ' | Ціна: ' + price + ' | Собівартість: ' + cost + ' | Маржа: ' + margin + '%';
   }).join('\n');
