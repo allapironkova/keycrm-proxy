@@ -22,7 +22,6 @@
   .btn { background: #b89a6a; color: #0a0a0a; border: none; padding: 11px 20px; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
   .btn:hover { background: #caa87a; }
   .btn:disabled { background: #333; color: #666; cursor: not-allowed; }
-  .btn-sm { padding: 8px 16px; font-size: 10px; }
   .status { margin-top: 10px; font-size: 12px; color: #666; }
   .status.ok { color: #6ab87a; }
   .status.err { color: #b86a6a; }
@@ -32,10 +31,10 @@
   .stat-label { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: #666; margin-bottom: 8px; }
   .stat-value { font-family: 'Playfair Display', serif; font-size: 22px; color: #b89a6a; }
   .stat-sub { font-size: 11px; color: #555; margin-top: 4px; }
-  .tabs { display: flex; gap: 0; margin-bottom: 0; border-bottom: 1px solid #222; }
+  .tabs { display: flex; border-bottom: 1px solid #222; }
   .tab { padding: 10px 20px; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #666; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
   .tab.active { color: #b89a6a; border-bottom-color: #b89a6a; }
-  .tab-content { display: none; }
+  .tab-content { display: none; padding: 16px; }
   .tab-content.active { display: block; }
   table { width: 100%; border-collapse: collapse; font-size: 12px; }
   th { text-align: left; padding: 9px 12px; background: #0f0f0f; color: #555; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 400; border-bottom: 1px solid #1a1a1a; }
@@ -58,7 +57,7 @@
   @keyframes blink { 0%,80%,100%{opacity:.2} 40%{opacity:1} }
   .chat-input-row { padding: 14px 20px; border-top: 1px solid #222; display: flex; gap: 10px; }
   .quick-btns { padding: 0 20px 16px; display: flex; flex-wrap: wrap; gap: 6px; }
-  .quick-btn { background: transparent; border: 1px solid #2a2a2a; color: #777; padding: 6px 12px; font-family: 'DM Sans', sans-serif; font-size: 10px; cursor: pointer; letter-spacing: 0.05em; }
+  .quick-btn { background: transparent; border: 1px solid #2a2a2a; color: #777; padding: 6px 12px; font-family: 'DM Sans', sans-serif; font-size: 10px; cursor: pointer; }
   .quick-btn:hover { border-color: #b89a6a; color: #b89a6a; }
   .empty { text-align: center; padding: 50px 20px; color: #444; font-size: 13px; }
   .progress { height: 2px; background: #222; margin-top: 8px; }
@@ -81,7 +80,7 @@
     </div>
     <div id="status" class="status"></div>
     <div class="progress"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
-    <div class="note">Завантажує: товари, варіанти з собівартістю, залишки, замовлення</div>
+    <div class="note">Завантажує: товари з собівартістю, залишки, замовлення</div>
   </div>
 
   <div id="statsSection" style="display:none;">
@@ -94,7 +93,7 @@
       <div class="stat-card">
         <div class="stat-label">Замовлень</div>
         <div class="stat-value" id="statOrders">—</div>
-        <div class="stat-sub" id="statOrdersSub">за весь час</div>
+        <div class="stat-sub">за весь час</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Виручка</div>
@@ -116,23 +115,21 @@
       <div class="tab" onclick="switchTab('orders')">Замовлення</div>
       <div class="tab" onclick="switchTab('stocks')">Залишки</div>
     </div>
-    <div style="padding:16px;">
-      <div id="tab-products" class="tab-content active">
-        <table><thead><tr><th>Назва</th><th>Ціна</th><th>Категорія</th><th>Артикул</th></tr></thead>
-        <tbody id="tblProducts"></tbody></table>
-      </div>
-      <div id="tab-offers" class="tab-content">
-        <table><thead><tr><th>Назва</th><th>SKU</th><th>Ціна продажу</th><th>Собівартість</th><th>Маржа</th></tr></thead>
-        <tbody id="tblOffers"></tbody></table>
-      </div>
-      <div id="tab-orders" class="tab-content">
-        <table><thead><tr><th>ID</th><th>Сума</th><th>Статус оплати</th><th>Дата</th><th>Витрати</th></tr></thead>
-        <tbody id="tblOrders"></tbody></table>
-      </div>
-      <div id="tab-stocks" class="tab-content">
-        <table><thead><tr><th>SKU</th><th>Назва</th><th>Кількість</th><th>Склад</th></tr></thead>
-        <tbody id="tblStocks"></tbody></table>
-      </div>
+    <div id="tab-products" class="tab-content active">
+      <table><thead><tr><th>Назва</th><th>Ціна</th><th>Закупочна</th><th>Маржа</th><th>SKU</th></tr></thead>
+      <tbody id="tblProducts"></tbody></table>
+    </div>
+    <div id="tab-offers" class="tab-content">
+      <table><thead><tr><th>Назва варіанту</th><th>SKU</th><th>Ціна продажу</th><th>Закупочна ціна</th><th>Маржа</th></tr></thead>
+      <tbody id="tblOffers"></tbody></table>
+    </div>
+    <div id="tab-orders" class="tab-content">
+      <table><thead><tr><th>ID</th><th>Сума</th><th>Статус оплати</th><th>Дата</th><th>Витрати</th></tr></thead>
+      <tbody id="tblOrders"></tbody></table>
+    </div>
+    <div id="tab-stocks" class="tab-content">
+      <table><thead><tr><th>SKU</th><th>Назва</th><th>Кількість</th><th>Склад</th></tr></thead>
+      <tbody id="tblStocks"></tbody></table>
     </div>
   </div>
 
@@ -143,11 +140,11 @@
     </div>
     <div class="quick-btns" id="quickBtns" style="display:none;">
       <button class="quick-btn" onclick="ask('Які товари найприбутковіші? Покажи топ-10 з маржею')">Топ прибуткових</button>
-      <button class="quick-btn" onclick="ask('Де зависли гроші у стоках? Які товари мають великий залишок і низькі продажі?')">Де зависли гроші?</button>
-      <button class="quick-btn" onclick="ask('Яка загальна виручка і середня маржа по всьому асортименту?')">Загальна аналітика</button>
-      <button class="quick-btn" onclick="ask('Які товари мають нульовий або критично низький залишок?')">Критичні залишки</button>
-      <button class="quick-btn" onclick="ask('Проаналізуй замовлення: середній чек, динаміка, топ місяці')">Аналіз замовлень</button>
-      <button class="quick-btn" onclick="ask('Що варто закупити наступного разу виходячи з продажів і залишків?')">План закупки</button>
+      <button class="quick-btn" onclick="ask('Де зависли гроші у стоках?')">Де зависли гроші?</button>
+      <button class="quick-btn" onclick="ask('Яка загальна виручка і середня маржа?')">Загальна аналітика</button>
+      <button class="quick-btn" onclick="ask('Які товари мають нульовий залишок?')">Критичні залишки</button>
+      <button class="quick-btn" onclick="ask('Проаналізуй замовлення: середній чек, динаміка')">Аналіз замовлень</button>
+      <button class="quick-btn" onclick="ask('Що варто закупити наступного разу?')">План закупки</button>
     </div>
     <div class="chat-input-row">
       <input type="text" id="chatInput" placeholder="Задайте будь-яке питання по вашому бізнесу..." disabled onkeydown="if(event.key==='Enter')sendMsg()">
@@ -160,10 +157,11 @@
 var products = [], offers = [], orders = [], stocks = [];
 var messages = [], thinking = false;
 
-async function fetchAll(endpoint, key) {
+async function fetchPages(endpoint, key) {
   var all = [], page = 1;
   while (true) {
-    var res = await fetch('/api/proxy?endpoint=' + encodeURIComponent(endpoint + '?limit=50&page=' + page), {
+    var sep = endpoint.indexOf('?') >= 0 ? '&' : '?';
+    var res = await fetch('/api/proxy?endpoint=' + encodeURIComponent(endpoint + sep + 'limit=50&page=' + page), {
       headers: { 'x-api-key': key }
     });
     var data = await res.json();
@@ -182,21 +180,48 @@ async function loadAll() {
   var key = document.getElementById('apiKey').value.trim();
   if (!key) { setStatus('Введіть API ключ', 'err'); return; }
   document.getElementById('connectBtn').disabled = true;
+  products = []; offers = []; orders = []; stocks = [];
 
   try {
+    // Завантажуємо товари
     setStatus('Завантаження товарів...', ''); setProgress(10);
-    products = await fetchAll('products', key);
-    setStatus('Завантажено ' + products.length + ' товарів. Варіанти...', ''); setProgress(30);
+    products = await fetchPages('products', key);
 
-    offers = await fetchAll('offers', key);
-    setStatus('Завантажено ' + offers.length + ' варіантів. Залишки...', ''); setProgress(50);
+    // Завантажуємо варіанти — пробуємо з include
+    setStatus('Завантаження варіантів з собівартістю...', ''); setProgress(30);
+    try {
+      offers = await fetchPages('offers', key);
+    } catch(e) { offers = []; }
 
-    try { stocks = await fetchAll('offers/stocks', key); } catch(e) { stocks = []; }
-    setStatus('Завантажено залишки. Замовлення...', ''); setProgress(70);
+    // Якщо собівартість порожня в offers — беремо з products
+    var hasCost = offers.some(function(o) {
+      return parseFloat(o.purchased_price || o.cost_price || o.purchase_price || 0) > 0;
+    });
 
-    orders = await fetchAll('order', key);
+    if (!hasCost && products.length > 0) {
+      // Беремо purchased_price з products
+      offers = products.map(function(p) {
+        return {
+          id: p.id,
+          name: p.name,
+          sku: p.sku,
+          price: p.price,
+          purchased_price: p.purchased_price || 0,
+          product: p
+        };
+      });
+    }
+
+    // Залишки
+    setStatus('Завантаження залишків...', ''); setProgress(55);
+    try { stocks = await fetchPages('offers/stocks', key); } catch(e) { stocks = []; }
+
+    // Замовлення
+    setStatus('Завантаження замовлень...', ''); setProgress(75);
+    orders = await fetchPages('order', key);
+
     setProgress(100);
-    setStatus('Готово! Товарів: ' + products.length + ' | Варіантів: ' + offers.length + ' | Замовлень: ' + orders.length + ' | Залишків: ' + stocks.length, 'ok');
+    setStatus('Готово! Товарів: ' + products.length + ' | Варіантів: ' + offers.length + ' | Замовлень: ' + orders.length, 'ok');
 
     renderStats();
     renderTables();
@@ -205,11 +230,19 @@ async function loadAll() {
     document.getElementById('chatInput').disabled = false;
     document.getElementById('sendBtn').disabled = false;
     document.getElementById('quickBtns').style.display = 'flex';
-    addMsg('ai', 'Завантажено **' + products.length + ' товарів**, **' + offers.length + ' варіантів**, **' + orders.length + ' замовлень**. Тепер можу аналізувати собівартість, маржу, продажі і залишки. Що вас цікавить?');
+    addMsg('ai', 'Завантажено **' + products.length + ' товарів**, **' + offers.length + ' варіантів**, **' + orders.length + ' замовлень**. Що вас цікавить?');
   } catch(e) {
     setStatus('Помилка: ' + e.message, 'err');
   }
   document.getElementById('connectBtn').disabled = false;
+}
+
+function getCost(o) {
+  return parseFloat(o.purchased_price || o.cost_price || o.purchase_price || 0);
+}
+
+function getPrice(o) {
+  return parseFloat(o.price || o.sell_price || 0);
 }
 
 function renderStats() {
@@ -223,60 +256,73 @@ function renderStats() {
 }
 
 function renderTables() {
+  // Товари
   document.getElementById('tblProducts').innerHTML = products.slice(0,50).map(function(p) {
-    return '<tr><td>' + (p.name||'—') + '</td><td style="color:#b89a6a">' + (p.price?p.price+' грн':'—') + '</td><td style="color:#666">' + (p.category&&p.category.name?p.category.name:'—') + '</td><td style="color:#555">' + (p.sku||'—') + '</td></tr>';
-  }).join('');
-
-  document.getElementById('tblOffers').innerHTML = offers.slice(0,50).map(function(o) {
-    var price = parseFloat(o.price || o.sell_price || 0);
-    var cost = parseFloat(o.purchased_price || o.cost_price || o.purchase_price || 0);
+    var price = parseFloat(p.price || 0);
+    var cost = parseFloat(p.purchased_price || 0);
     var margin = cost && price ? (((price-cost)/price)*100).toFixed(1) : '—';
-    var mc = margin > 30 ? '#6ab87a' : margin > 15 ? '#b89a6a' : '#b86a6a';
-    return '<tr><td>' + (o.product&&o.product.name?o.product.name:(o.name||'—')) + '</td><td style="color:#555">' + (o.sku||'—') + '</td><td style="color:#b89a6a">' + (price?price+' грн':'—') + '</td><td style="color:#888">' + (cost?cost+' грн':'—') + '</td><td style="color:' + mc + '">' + (margin!=='—'?margin+'%':'—') + '</td></tr>';
+    var mc = margin !== '—' ? (margin > 30 ? '#6ab87a' : margin > 15 ? '#b89a6a' : '#b86a6a') : '#555';
+    return '<tr><td>' + (p.name||'—') + '</td><td style="color:#b89a6a">' + (price?price+' грн':'—') + '</td><td style="color:#888">' + (cost?cost+' грн':'—') + '</td><td style="color:' + mc + '">' + (margin!=='—'?margin+'%':'—') + '</td><td style="color:#555">' + (p.sku||'—') + '</td></tr>';
   }).join('');
 
+  // Варіанти
+  document.getElementById('tblOffers').innerHTML = offers.slice(0,50).map(function(o) {
+    var price = getPrice(o);
+    var cost = getCost(o);
+    var margin = cost && price ? (((price-cost)/price)*100).toFixed(1) : '—';
+    var mc = margin !== '—' ? (margin > 30 ? '#6ab87a' : margin > 15 ? '#b89a6a' : '#b86a6a') : '#555';
+    var name = o.product && o.product.name ? o.product.name : (o.name||'—');
+    return '<tr><td>' + name + '</td><td style="color:#555">' + (o.sku||'—') + '</td><td style="color:#b89a6a">' + (price?price+' грн':'—') + '</td><td style="color:#888">' + (cost?cost+' грн':'—') + '</td><td style="color:' + mc + '">' + (margin!=='—'?margin+'%':'—') + '</td></tr>';
+  }).join('');
+
+  // Замовлення
   document.getElementById('tblOrders').innerHTML = orders.slice(0,50).map(function(o) {
     var date = o.created_at ? o.created_at.substring(0,10) : '—';
     return '<tr><td style="color:#555">#' + (o.id||'—') + '</td><td style="color:#b89a6a">' + (o.grand_total?o.grand_total+' грн':'—') + '</td><td style="color:#888">' + (o.payment_status||'—') + '</td><td style="color:#666">' + date + '</td><td style="color:#b86a6a">' + (o.expenses_sum?o.expenses_sum+' грн':'—') + '</td></tr>';
   }).join('');
 
+  // Залишки
   document.getElementById('tblStocks').innerHTML = stocks.slice(0,50).map(function(s) {
     return '<tr><td style="color:#555">' + (s.sku||'—') + '</td><td>' + (s.product_name||s.name||'—') + '</td><td style="color:#b89a6a">' + (s.quantity||0) + '</td><td style="color:#666">' + (s.warehouse&&s.warehouse.name?s.warehouse.name:'—') + '</td></tr>';
   }).join('');
 }
 
 function switchTab(name) {
-  document.querySelectorAll('.tab').forEach(function(t,i) {
-    var names = ['products','offers','orders','stocks'];
-    t.classList.toggle('active', names[i]===name);
+  var names = ['products','offers','orders','stocks'];
+  document.querySelectorAll('.tab').forEach(function(t, i) {
+    t.classList.toggle('active', names[i] === name);
   });
-  document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
-  document.getElementById('tab-'+name).classList.add('active');
+  names.forEach(function(n) {
+    document.getElementById('tab-'+n).classList.toggle('active', n === name);
+  });
 }
 
 function buildContext() {
-  var ctx = '';
-  ctx += 'ТОВАРИ (' + products.length + ' шт, перші 30):\n';
-  ctx += products.slice(0,30).map(function(p) {
-    return '- ' + (p.name||'—') + ' | Ціна: ' + (p.price||0) + ' грн | SKU: ' + (p.sku||'—');
-  }).join('\n');
-
-  ctx += '\n\nВАРІАНТИ З СОБІВАРТІСТЮ (' + offers.length + ' шт, перші 50):\n';
-  ctx += offers.slice(0,50).map(function(o) {
-    var price = parseFloat(o.price || o.sell_price || 0);
-    var cost = parseFloat(o.purchased_price || o.cost_price || o.purchase_price || 0);
+  var ctx = 'ТОВАРИ З СОБІВАРТІСТЮ (' + products.length + ' шт, перші 50):\n';
+  ctx += products.slice(0,50).map(function(p) {
+    var price = parseFloat(p.price || 0);
+    var cost = parseFloat(p.purchased_price || 0);
     var margin = cost && price ? (((price-cost)/price)*100).toFixed(1) : '?';
-    return '- ' + (o.product&&o.product.name?o.product.name:(o.name||'—')) + ' | SKU: ' + (o.sku||'—') + ' | Ціна: ' + price + ' | Собівартість: ' + cost + ' | Маржа: ' + margin + '%';
+    return '- ' + (p.name||'—') + ' | SKU: ' + (p.sku||'—') + ' | Ціна: ' + price + ' грн | Закупочна: ' + cost + ' грн | Маржа: ' + margin + '%';
   }).join('\n');
 
-  ctx += '\n\nЗАМОВЛЕННЯ (' + orders.length + ' шт, перші 50):\n';
-  ctx += orders.slice(0,50).map(function(o) {
-    return '- #' + o.id + ' | Сума: ' + (o.grand_total||0) + ' грн | Оплата: ' + (o.payment_status||'—') + ' | Дата: ' + (o.created_at?o.created_at.substring(0,10):'—') + ' | Витрати: ' + (o.expenses_sum||0);
+  ctx += '\n\nВАРІАНТИ (' + offers.length + ' шт, перші 50):\n';
+  ctx += offers.slice(0,50).map(function(o) {
+    var price = getPrice(o);
+    var cost = getCost(o);
+    var margin = cost && price ? (((price-cost)/price)*100).toFixed(1) : '?';
+    var name = o.product && o.product.name ? o.product.name : (o.name||'—');
+    return '- ' + name + ' | SKU: ' + (o.sku||'—') + ' | Ціна: ' + price + ' | Закупочна: ' + cost + ' | Маржа: ' + margin + '%';
+  }).join('\n');
+
+  ctx += '\n\nЗАМОВЛЕННЯ (' + orders.length + ' шт, перші 100):\n';
+  ctx += orders.slice(0,100).map(function(o) {
+    return '- #' + o.id + ' | ' + (o.grand_total||0) + ' грн | ' + (o.payment_status||'—') + ' | ' + (o.created_at?o.created_at.substring(0,10):'—');
   }).join('\n');
 
   ctx += '\n\nЗАЛИШКИ (' + stocks.length + ' шт, перші 50):\n';
   ctx += stocks.slice(0,50).map(function(s) {
-    return '- SKU: ' + (s.sku||'—') + ' | ' + (s.product_name||s.name||'—') + ' | Кількість: ' + (s.quantity||0);
+    return '- SKU: ' + (s.sku||'—') + ' | ' + (s.product_name||s.name||'—') + ' | ' + (s.quantity||0) + ' шт';
   }).join('\n');
 
   return ctx;
@@ -300,7 +346,7 @@ async function sendMsg() {
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 1500,
-        system: 'Ти фінансовий AI-аналітик fashion бізнесу. Маєш доступ до повних даних з KeyCRM:\n\n' + buildContext() + '\n\nВідповідай чітко, з конкретними цифрами і рекомендаціями. Мова: українська або російська залежно від питання.',
+        system: 'Ти фінансовий AI-аналітик fashion бізнесу. Дані з KeyCRM:\n\n' + buildContext() + '\n\nВідповідай чітко, з конкретними цифрами і рекомендаціями. Мова: українська або російська.',
         messages: messages.map(function(m) { return {role: m.role==='ai'?'assistant':'user', content: m.content}; })
       })
     });
