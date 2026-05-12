@@ -1,0 +1,5 @@
+{
+  "name": "keycrm-proxy",
+  "version": "1.0.0",
+  "description": "KeyCRM API proxy for Claude analytics"
+}
