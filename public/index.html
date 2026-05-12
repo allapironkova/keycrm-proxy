@@ -218,7 +218,7 @@ async function loadAll() {
 
     // Замовлення
     setStatus('Завантаження замовлень...', ''); setProgress(75);
-    orders = await fetchPages('order', key);
+    orders = await fetchPages('order?include=products,payments', key);
 
     setProgress(100);
     setStatus('Готово! Товарів: ' + products.length + ' | Варіантів: ' + offers.length + ' | Замовлень: ' + orders.length, 'ok');
