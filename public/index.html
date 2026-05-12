@@ -188,7 +188,7 @@ async function loadAll() {
     products = await fetchAll('products', key);
     setStatus('Завантажено ' + products.length + ' товарів. Варіанти...', ''); setProgress(30);
 
-    offers = await fetchAll('products?include=offers', key);
+    offers = await fetchAll('offers', key);
     setStatus('Завантажено ' + offers.length + ' варіантів. Залишки...', ''); setProgress(50);
 
     try { stocks = await fetchAll('offers/stocks', key); } catch(e) { stocks = []; }
